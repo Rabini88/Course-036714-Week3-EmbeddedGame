@@ -30,33 +30,33 @@
 
 ### 2. The Three Buttons (Inputs)
 * **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board (where all columns are open).
-  * **Button 1 (Left Action):** Insert into rows **21 and 23** (pins into `e21`, `e23` and `f21`, `f23`).
+  * **Button 1 (Left Action):** Insert into rows **22 and 24** (pins into `e22`, `e24` and `f22`, `f24`).
   * **Button 2 (Center Action):** Insert into rows **25 and 27** (pins into `e25`, `e27` and `f25`, `f27`).
   * **Button 3 (Right Action):** Insert into rows **28 and 30** (pins into `e28`, `e30` and `f28`, `f30`).
 * **Wiring:** 
-  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j21`, `j25`, `j28` - note: just connect any hole in rows 21, 25, 28 on the right side to the Blue rail).
+  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j22`, `j25`, `j28` - note: just connect any hole in rows 22, 25, 28 on the right side to the Blue rail).
   * **Signal:** Connect a jumper wire from the bottom-right pin of each button to the ESP32 via column `j`:
-    * Button 1 signal (`i23`) -> **ESP32 GPIO 12 (plug into `j7`)**
+    * Button 1 signal (`i24`) -> **ESP32 GPIO 12 (plug into `j7`)**
     * Button 2 signal (`i27`) -> **ESP32 GPIO 13 (plug into `j5`)**
     * Button 3 signal (`i30`) -> **ESP32 GPIO 14 (plug into `j8`)**
 
-### 3. LEDs (Visual Outputs)
-* **Placement:** We will place these on the right side of the lower board.
-  * **Red LED:** Insert the long leg (Anode) into `g21` and the short leg (Cathode) into `g22`.
-  * **Blue LED:** Insert the long leg (Anode) into `g25` and the short leg (Cathode) into `g26`.
-* **Wiring:**
-  * **Grounding:** Connect `h22` (Red Cathode) and `h26` (Blue Cathode) to the right Blue (-) rail.
-  * **Signal:**
-    * Connect `h21` (Red Anode) to **ESP32 GPIO 25 (plug into `j11`)**
-    * Connect `h25` (Blue Anode) to **ESP32 GPIO 26 (plug into `j10`)**
+### 3. LEDs (Visual Outputs) - JUMPER-LESS DESIGN
+* **Hack:** Since we are low on jumper wires, we will plug the LEDs *directly* into the ESP32's signal pins and the ground rail! The LED legs are flexible enough to span the gap.
+* **Red LED (Game Over/Miss):**
+  * Insert the long leg (Anode) directly into **`j11`** (ESP32 GPIO 25).
+  * Stretch the short leg (Cathode) over and insert it directly into the right **Blue (-)** power rail at row 11.
+* **Blue LED (Hit/Score):**
+  * Insert the long leg (Anode) directly into **`j10`** (ESP32 GPIO 26).
+  * Stretch the short leg (Cathode) over and insert it directly into the right **Blue (-)** power rail at row 10.
 
-### 4. Active Buzzer (Audio Output)
-* **Placement:** Place on the right side of the lower board.
-  * Insert the long leg (marked with `+`) into `h28`.
-  * Insert the short leg (`-`) into `h29`.
-* **Wiring:**
-  * **Grounding:** Connect `i29` directly to the right Blue (-) rail.
-  * **Signal:** Connect `i28` to **ESP32 GPIO 27 (plug into `j9`)**.
+### 4. Active Buzzer (Audio Output) - REMOTE PLACEMENT
+* **Hack:** Since the buzzer is physically bulky, it cannot sit directly at `j9` without colliding with the LEDs and button wires. We will use your 2 remaining **Male-to-Male** jumper wires to place it out of the way.
+* **Placement:** Place the buzzer in the bottom-left corner of the breadboard.
+  * Insert the long leg (`+`) into **`a27`**.
+  * Insert the short leg (`-`) into **`a29`**.
+* **Wiring (Using 2 M-M jumpers):**
+  * **Grounding:** Connect a jumper wire from **`b29`** (or any hole in row 29 on the left side) to the nearest **Blue (-)** power rail (you can run it over the trench to the right Blue rail).
+  * **Signal:** Connect a jumper wire from **`b27`** back to **ESP32 GPIO 27 (plug into `j9`)**.
 
 ### 5. OLED Display (I2C)
 * **Placement:** Do not mount this directly on the crowded breadboard. Use four **Male-to-Female** Dupont jumper wires to connect the OLED's male header pins.
