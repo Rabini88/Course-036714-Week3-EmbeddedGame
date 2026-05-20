@@ -22,49 +22,49 @@
 *Note: The breadboard has rows numbered 1 to 30. Columns a-e are on the left of the center trench, and f-j are on the right. Power rails are on the far edges (Red for +, Blue for -).*
 
 ### 1. The ESP32 Brain & Power Rails
-* **Placement:** Carefully insert the ESP32 into the top of the breadboard (Rows 1 to 19), straddling the center trench. Ensure the Micro-USB port is pointing outwards at the top. 
+* **Placement:** Keep the ESP32 exactly where it is (Rows 1 to 19). The left pins are in column `a` and the right pins are in column `i`. This blocks the left side but leaves **column `j` completely free** for all our wiring. Ensure the Micro-USB port is pointing outwards at the top. 
 * **Power:** 
-  * Connect a jumper wire from an ESP32 `3V3` pin to the **Red (+)** power rail on the left.
-  * Connect a jumper wire from an ESP32 `GND` pin to the **Blue (-)** power rail on the left.
-  * *Note: All components will use this left Blue (-) rail for ground.*
+  * Connect a jumper wire from the ESP32 `3V3` pin (located at **`j19`**) to the **Red (+)** power rail on the right side.
+  * Connect a jumper wire from an ESP32 `GND` pin (located at **`j6`**) to the **Blue (-)** power rail on the right side.
+  * *Note: All components will use this right Blue (-) rail for ground.*
 
 ### 2. The Three Buttons (Inputs)
-* **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board.
+* **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board (where all columns are open).
   * **Button 1 (Left Action):** Insert into rows **21 and 23** (pins into `e21`, `e23` and `f21`, `f23`).
   * **Button 2 (Center Action):** Insert into rows **25 and 27** (pins into `e25`, `e27` and `f25`, `f27`).
   * **Button 3 (Right Action):** Insert into rows **28 and 30** (pins into `e28`, `e30` and `f28`, `f30`).
 * **Wiring:** 
-  * **Grounding:** Connect a jumper wire from the left Blue (-) rail to the top-left pin of each button (`a21`, `a25`, `a28`).
-  * **Signal:** Connect a jumper wire from the top-right pin of each button to the ESP32. (Locate the corresponding GPIO pins on the rows alongside the ESP32):
-    * Button 1 (`j21`) -> **ESP32 GPIO 12**
-    * Button 2 (`j25`) -> **ESP32 GPIO 13**
-    * Button 3 (`j28`) -> **ESP32 GPIO 14**
+  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j21`, `j25`, `j28` - note: just connect any hole in rows 21, 25, 28 on the right side to the Blue rail).
+  * **Signal:** Connect a jumper wire from the bottom-right pin of each button to the ESP32 via column `j`:
+    * Button 1 signal (`i23`) -> **ESP32 GPIO 12 (plug into `j7`)**
+    * Button 2 signal (`i27`) -> **ESP32 GPIO 13 (plug into `j5`)**
+    * Button 3 signal (`i30`) -> **ESP32 GPIO 14 (plug into `j8`)**
 
 ### 3. LEDs (Visual Outputs)
-* **Placement:** We will place these on the left side of the lower board.
-  * **Red LED:** Insert the long leg (Anode) into `b21` and the short leg (Cathode) into `b22`.
-  * **Blue LED:** Insert the long leg (Anode) into `b25` and the short leg (Cathode) into `b26`.
+* **Placement:** We will place these on the right side of the lower board.
+  * **Red LED:** Insert the long leg (Anode) into `g21` and the short leg (Cathode) into `g22`.
+  * **Blue LED:** Insert the long leg (Anode) into `g25` and the short leg (Cathode) into `g26`.
 * **Wiring:**
-  * **Grounding:** Connect `a22` (Red Cathode) and `a26` (Blue Cathode) to the left Blue (-) rail.
+  * **Grounding:** Connect `h22` (Red Cathode) and `h26` (Blue Cathode) to the right Blue (-) rail.
   * **Signal:**
-    * Connect `c21` (Red Anode) to **ESP32 GPIO 25**
-    * Connect `c25` (Blue Anode) to **ESP32 GPIO 26**
+    * Connect `h21` (Red Anode) to **ESP32 GPIO 25 (plug into `j11`)**
+    * Connect `h25` (Blue Anode) to **ESP32 GPIO 26 (plug into `j10`)**
 
 ### 4. Active Buzzer (Audio Output)
 * **Placement:** Place on the right side of the lower board.
-  * Insert the long leg (marked with `+`) into `i21`.
-  * Insert the short leg (`-`) into `i22`.
+  * Insert the long leg (marked with `+`) into `h28`.
+  * Insert the short leg (`-`) into `h29`.
 * **Wiring:**
-  * **Grounding:** Connect a jumper from `j22` directly to the left Blue (-) rail.
-  * **Signal:** Connect a jumper from `j21` to **ESP32 GPIO 27**.
+  * **Grounding:** Connect `i29` directly to the right Blue (-) rail.
+  * **Signal:** Connect `i28` to **ESP32 GPIO 27 (plug into `j9`)**.
 
 ### 5. OLED Display (I2C)
 * **Placement:** Do not mount this directly on the crowded breadboard. Use four **Male-to-Female** Dupont jumper wires to connect the OLED's male header pins.
 * **Wiring:**
-  * `GND` -> Left Blue (-) rail.
-  * `VCC` -> Left Red (+) rail (3.3V).
-  * `SCL` -> **ESP32 GPIO 22**
-  * `SDA` -> **ESP32 GPIO 21**
+  * `GND` -> Right Blue (-) rail.
+  * `VCC` -> Right Red (+) rail (3.3V).
+  * `SCL` -> **ESP32 GPIO 33 (plug into `j12`)** (Remapped to the right side!)
+  * `SDA` -> **ESP32 GPIO 32 (plug into `j13`)** (Remapped to the right side!)
 
 ---
 ## Next Steps
