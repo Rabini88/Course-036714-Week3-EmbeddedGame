@@ -15,7 +15,7 @@ const float PADDLE_SPEED = 90.0f; // pixels per second
 
 // --- Ball Parameters ---
 const float BALL_RADIUS = 2.0f;
-const float BALL_SPEED_BASE = 50.0f; // pixels per second
+const float BALL_SPEED_BASE = 35.0f; // pixels per second
 
 // --- Block Parameters ---
 const int BLOCK_ROWS = 4;

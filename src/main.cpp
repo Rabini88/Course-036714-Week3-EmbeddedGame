@@ -108,7 +108,7 @@ void loop() {
     switch(currentState) {
         case STATE_START_SCREEN:
             drawStartScreen();
-            if (currentMillis - stateStartTime > 3000 || leftPressed || rightPressed) {
+            if (leftPressed || rightPressed) {
                 initGame();
                 currentState = STATE_SERVE_WAIT;
                 stateStartTime = currentMillis;
