@@ -5,12 +5,12 @@
   * *Details:* 38-pin variant, 3.3V logic level. Features a dual-core processor, built-in Wi-Fi/Bluetooth, and a CP2102 USB-to-UART bridge for programming.
 * **Display: 0.96" OLED Module**
   * *Details:* 128x64 pixel monochrome screen driven by the SSD1306 controller. Uses the I2C protocol requiring only 4 pins: `GND`, `VCC` (3.3V/5V compatible), `SCL` (Serial Clock), and `SDA` (Serial Data). Hardware address is usually `0x3C`.
-* **Inputs: 3x Tactile Push Buttons**
-  * *Details:* Momentary (Normally Open) switches with 4 pins. Best wired using the ESP32's internal pull-up resistors (`INPUT_PULLUP`), requiring only a connection to a GPIO pin and Ground.
+* **Inputs: 2x Tactile Push Buttons**
+  * *Details:* Momentary (Normally Open) switches with 4 pins. Best wired using the ESP32's internal pull-up resistors (`INPUT_PULLUP`), requiring only a connection to a GPIO pin and Ground. We have Left and Center buttons (Right was removed).
 * **Outputs (Visual): 1x Red LED, 1x Blue LED**
   * *Details:* Standard 5mm through-hole LEDs. Polarity sensitive (longer leg = anode/positive, shorter flat leg = cathode/ground). 
-* **Outputs (Audio): 1x Active Buzzer (TMB12A05)**
-  * *Details:* Generates its own continuous loud tone when driven HIGH. Polarity sensitive (longer leg / '+' sticker connects to signal, shorter leg to ground).
+* **Outputs (Audio): None**
+  * *Details:* The active buzzer was removed to free up wiring for the OLED display.
 * **Infrastructure: 400-Point Solderless Breadboard**
   * *Details:* Standard half-size breadboard.
 * **Cabling: Dupont Jumper Wires**
@@ -45,18 +45,14 @@
 | **19 (Bottom)**| `GND` | `3V3` (3.3V) | Ground (Left) / 3.3V Power available (Right) |
 
 ## 3. Game Concepts & Architectures
-Here are five classic, generic game concepts designed specifically for this hardware layout:
+Here is the chosen game concept designed specifically for this 2-button hardware layout:
 
-* **Concept 1: Classic Sequence Memory (Simon Says)**
-  * *Mechanic:* The OLED displays a prompt and the LEDs flash in a specific sequence. The user must repeat the sequence using the three buttons.
-* **Concept 2: Reflex Target Practice (Whack-a-Mole Style)**
-  * *Mechanic:* Targets randomly appear in three columns on the OLED. The player must press the corresponding button before the target vanishes.
-* **Concept 3: 2D Endless Runner (Survival Platformer)**
-  * *Mechanic:* A 2D side-scrolling game. One button jumps over ground obstacles, another ducks under flying obstacles.
-* **Concept 4: Digital Safecracker (Logic/Code Puzzle)**
-  * *Mechanic:* Guess a hidden 3-digit combination using two buttons to cycle numbers up/down, and the third to submit. Mastermind-style feedback on OLED.
-* **Concept 5: Single-Player Pong (Wall Ball)**
-  * *Mechanic:* A paddle on one side of the OLED defends against a bouncing ball. Two buttons move the paddle UP/DOWN, the third serves/pauses.
+* **Concept: Block Breaker (Breakout / Arkanoid Style)**
+  * *Mechanic:* A paddle at the bottom of the OLED screen defends against a bouncing ball that destroys bricks at the top of the screen.
+  * *Controls:* The two available tactile buttons (Left and Center) will move the paddle LEFT and RIGHT respectively.
+  * *Visual Feedback:* The Blue LED will flash briefly when the ball hits a brick or the paddle. The Red LED will light up (and potentially flash) when the ball falls past the paddle (Game Over/Miss).
+  * *Auto-Serve:* Since we only have two buttons and no dedicated "Serve" button, the ball will automatically serve after a short delay when a new game starts or a life is lost.
+  * **Detailed Specs:** See [`docs/game_specifications.md`](game_specifications.md) for full architectural guidelines, state machine details, and performance requirements (e.g., 400kHz I2C, non-blocking loops).
 
 ## 4. Next Steps for VS Code / Antigravity Setup
 1. Open this workspace in the Antigravity IDE.
