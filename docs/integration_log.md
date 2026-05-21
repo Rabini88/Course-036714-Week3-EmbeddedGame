@@ -16,13 +16,13 @@
 | Step | Component | Wires | Type | Running Total (M-M) |
 |---|---|---|---|---|
 | Step 2 | Power Rails (3V3 + GND) | 2 | M-M | 2 |
-| Step 3 | Button Grounds (×3) | 3 | M-M | 5 |
-| Step 3 | Button Signals (×3) | 3 | M-M | 8 |
-| Step 4 | LEDs (jumper-less) | 0 | — | 8 |
-| Step 5 | Buzzer Ground + Signal | 2 | M-M | 10 ✅ |
-| Step 6 | OLED (GND, VCC, SCL, SDA) | 4 | M-F | ❌ BLOCKED (only 2 M-F available) |
+| Step 3 | Button Grounds (×2) | 2 | M-M | 4 |
+| Step 3 | Button Signals (×2) | 2 | M-M | 6 |
+| Step 4 | LEDs (jumper-less) | 0 | — | 6 |
+| Step 5 | Buzzer | 0 | — | 6 (Removed) |
+| Step 6 | OLED (GND, VCC, SCL, SDA) | 4 | M-M | 10 ✅ |
 
-> **BLOCKER:** OLED requires 4 M-F cables. Only 2 are available. Options: (A) Acquire 2 more M-F cables, or (B) solder short leads on the OLED breakout to convert to M-M compatible.
+> **PIVOT:** To unblock the OLED and solve the M-F cable shortage, the Right Button and Active Buzzer were removed to free up space and 4 M-M cables. The OLED is now mounted directly to the board.
 
 ---
 
@@ -34,49 +34,68 @@
 * **Location:** Rows 1 to 19.
 
 ## [2026-05-20] Step 2: Power Rails Wiring
-**Status:** ⏸️ Reset (Not Connected)
+**Status:** ✅ Completed
 
-* Previously connected, then unplugged during reset.
-* **To Do:**
-  * `3V3` (j19) -> Right Red (+) rail — 1 M-M wire
-  * `GND` (j6) -> Right Blue (-) rail — 1 M-M wire
+* `3V3` (j19) -> Right Red (+) rail — 1 M-M wire
+* `GND` (j6) -> Right Blue (-) rail — 1 M-M wire
 
-## [2026-05-20] Step 3: The Three Tactile Buttons
-**Status:** 🟡 Partially Complete — Physically Placed, Not Wired
+## [2026-05-20] Step 3: The Two Tactile Buttons (Shifted Up)
+**Status:** ✅ Completed (Pivot: 3rd button removed)
 
-* Buttons are physically seated in the breadboard.
-* **No cables are connected yet.**
-* **Button Placement (can be adjusted if needed):**
-  * **Left:** Rows 22 and 24 (`e/f` columns)
-  * **Center:** Rows 25 and 27 (`e/f` columns)
-  * **Right:** Rows 28 and 30 (`e/f` columns)
-* **Wiring To Do:**
-  * **Grounds:** `j22`, `j25`, `j28` -> Right Blue (-) rail (3 M-M wires)
-  * **Signals:** 
-    * `i24` -> `j7` (GPIO 12) — 1 M-M wire
-    * `i27` -> `j5` (GPIO 13) — 1 M-M wire
-    * `i30` -> `j8` (GPIO 14) — 1 M-M wire
+* **Button Placement:**
+  * **Left:** Rows 21 and 23 (`e/f` columns)
+  * **Center:** Rows 24 and 26 (`e/f` columns)
+* **Grounds:** `j21`, `j24` -> Right Blue (-) rail (2 M-M wires)
+* **Signals:**
+  * `i23` -> `j7` (GPIO 12) — Left button
+  * `i26` -> `j5` (GPIO 13) — Center button
 
 ## [2026-05-20] Step 4: LEDs (Visual Outputs) — Jumper-Less
-**Status:** ⏸️ Reset (Unplugged)
+**Status:** ✅ Completed
 
-* Previously inserted, then removed during reset.
-* **Plan:** Insert LEDs directly between the ESP32 column j and the Blue (-) rail. No M-M wires needed.
-  * **Red LED:** Long leg -> `j11` (GPIO 25), Short leg -> Blue (-) rail row 11
-  * **Blue LED:** Long leg -> `j10` (GPIO 26), Short leg -> Blue (-) rail row 10
+* **Red LED:** Long leg -> `j11` (GPIO 25), Short leg -> Blue (-) rail row 11
+* **Blue LED:** Long leg -> `j10` (GPIO 26), Short leg -> Blue (-) rail row 10
 
-## [2026-05-20] Step 5: Active Buzzer — Remote Placement
-**Status:** ⏸️ Not Started
+## [2026-05-20] Step 5: Active Buzzer — REMOVED
+**Status:** ❌ Removed during pivot
 
-* **Plan:** Place buzzer in bottom-left corner using final 2 M-M wires.
-  * Long leg (+) -> `a27`
-  * Short leg (-) -> `a29`
-  * **Ground:** `b29` -> Right Blue (-) rail — 1 M-M wire
-  * **Signal:** `b27` -> `j9` (GPIO 27) — 1 M-M wire
+* Buzzer was removed to free up 2 M-M cables and physical space for the OLED display.
 
 ## [2026-05-20] Step 6: OLED Display (I2C)
-**Status:** ❌ Blocked — Insufficient M-F Cables
+**Status:** ✅ Completed (Pivot)
 
-* Requires 4 M-F cables (GND, VCC, SCL, SDA).
-* Only 2 M-F cables available.
-* **Resolution Required** before proceeding with Phase 2 assembly.
+* **Direct Breadboard Mount:** Plugged directly into `a27-a30`.
+* **Wiring (using 4 freed M-M cables):**
+  * `GND` (a27) -> Right Blue (-) rail
+  * `VCC` (a28) -> Right Red (+) rail
+  * `SCL` (a29) -> `j12` (GPIO 33)
+  * `SDA` (a30) -> `j13` (GPIO 32)
+
+---
+
+## [2026-05-20] Step 7: PlatformIO CLI Installation
+**Status:** ✅ Completed
+
+* `pio` was not on system PATH. Installed via `pip install platformio` into conda base environment.
+* **Version installed:** PlatformIO Core 6.1.19
+
+## [2026-05-20] Step 8: Phase 1 Firmware Flash & Verification
+**Status:** ✅ PASSED
+
+* Flashed via `pio run --target upload --upload-port COM3`
+* ESP32 identified: `ESP32-D0WD (revision v1.0)`, MAC `ec:62:60:11:80:18`
+* Serial monitor confirmed boot message at 115200 baud.
+* **Test Results (all passed ✅):**
+  * Left button → Serial: `Button 1 (Left) Pressed!` + Red LED ON
+  * Right button → Serial: `Button 3 (Right) Pressed!` + Blue LED ON
+  * Center button → Serial: `Button 2 (Center) Pressed!` + Both LEDs blink rapidly
+  * Button release → LEDs off, no serial output
+
+---
+
+## Phase 2 Checklist (Next Session)
+
+* [x] **Step 5:** Pivot - Remove Active Buzzer and Button 3
+* [x] **Step 6:** Mount OLED on rows 27-30 and wire with M-M cables
+* [ ] **Step 9:** Write Phase 2 firmware test (OLED initialization & text output)
+* [ ] **Step 10:** Flash and verify Phase 2
