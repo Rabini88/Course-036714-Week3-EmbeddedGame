@@ -30,8 +30,8 @@
 
 ### 2. The Two Buttons (Inputs)
 * **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board.
-  * **Button 1 (Left Action):** Insert into rows **22 and 24** (pins into `e22`, `e24` and `f22`, `f24`).
-  * **Button 2 (Center Action):** Insert into rows **25 and 27** (pins into `e25`, `e27` and `f25`, `f27`).
+  * **Button 1 (Right Action - physically on left):** Insert into rows **22 and 24** (pins into `e22`, `e24` and `f22`, `f24`).
+  * **Button 2 (Left Action - physically on right):** Insert into rows **25 and 27** (pins into `e25`, `e27` and `f25`, `f27`).
 * **Wiring:** 
   * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j22`, `j25`).
   * **Signal:** Connect a jumper wire from the bottom-right pin of each button to the ESP32 via column `j`:
@@ -61,4 +61,4 @@
 
 ---
 ## Next Steps
-Once you have physically connected all these components according to the exact coordinates above, please confirm. The next step will be to write a minimal hardware test script to verify that the buttons read correctly, the LEDs blink, the buzzer sounds, and the OLED initializes successfully.
+Once you have physically connected all these components according to the exact coordinates above, the hardware is complete! The codebase now features the fully playable Block Breaker game with flipped controls, a non-blocking rendering loop, and tweaked game parameters. The project is officially complete!
