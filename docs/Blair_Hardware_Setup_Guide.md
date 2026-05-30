@@ -30,13 +30,13 @@
 
 ### 2. The Two Buttons (Inputs)
 * **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board.
-  * **Button 1 (Right Action - physically on left):** Insert into rows **22 and 24** (pins into `e22`, `e24` and `f22`, `f24`).
-  * **Button 2 (Left Action - physically on right):** Insert into rows **25 and 27** (pins into `e25`, `e27` and `f25`, `f27`).
+  * **Button 1 (Right Action - physically on left):** Insert into rows **21 and 23** (pins into `e21`, `e23` and `f21`, `f23`).
+  * **Button 2 (Left Action - physically on right):** Insert into rows **24 and 26** (pins into `e24`, `e26` and `f24`, `f26`).
 * **Wiring:** 
-  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j22`, `j25`).
+  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j21`, `j24`).
   * **Signal:** Connect a jumper wire from the bottom-right pin of each button to the ESP32 via column `j`:
-    * Button 1 signal (`i24`) -> **ESP32 GPIO 12 (plug into `j7`)**
-    * Button 2 signal (`i27`) -> **ESP32 GPIO 13 (plug into `j5`)**
+    * Button 1 signal (`i23`) -> **ESP32 GPIO 12 (plug into `j7`)**
+    * Button 2 signal (`i26`) -> **ESP32 GPIO 13 (plug into `j5`)**
 
 ### 3. LEDs (Visual Outputs) - JUMPER-LESS DESIGN
 * **Hack:** Since we are low on jumper wires, we will plug the LEDs *directly* into the ESP32's signal pins and the ground rail! The LED legs are flexible enough to span the gap.
