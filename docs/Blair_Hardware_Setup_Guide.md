@@ -60,5 +60,35 @@
   * **SDA:** Connect `b30` to **ESP32 GPIO 32 (plug into `j13`)**.
 
 ---
+
+## Flashing Code via Terminal (PowerShell)
+
+To compile and load the firmware onto the ESP32 using the command line:
+
+1. **Configure Environment for UTF-8 Compatibility:**
+   Set the Python encoding environment variable in your PowerShell terminal to avoid encoding errors caused by Hebrew characters in the directory path:
+   ```powershell
+   $env:PYTHONUTF8=1
+   ```
+
+2. **Navigate to the Project Root Directory:**
+   ```powershell
+   cd "c:\Users\leeor\OneDrive - Technion\Studies_Masters\Courses\סמסטר ז' - אביב 2026\036714 - שימושים ופיתוח בעזרת בינה מלאכותית בהובלת מומחה\Week 3\Course-036714-Week3-EmbeddedGame"
+   ```
+
+3. **Build and Upload the Code:**
+   Ensure your ESP32 is plugged into your PC via USB, then run:
+   ```powershell
+   pio run -t upload
+   ```
+
+4. **Open the Serial Monitor (Optional):**
+   To check real-time debugging output and serial logs:
+   ```powershell
+   pio device monitor
+   ```
+
+---
+
 ## Next Steps
 Once you have physically connected all these components according to the exact coordinates above, the hardware is complete! The codebase now features the fully playable Block Breaker game with flipped controls, a non-blocking rendering loop, and tweaked game parameters. The project is officially complete!
