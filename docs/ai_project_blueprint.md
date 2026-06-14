@@ -19,30 +19,32 @@
   * *Details:* Provides 5V power and serves as the serial data link for flashing code.
 
 ## 2. Breadboard Pinout Mapping (CRITICAL CONSTRAINTS)
-**Hardware Reality:** The ESP32 is wide and is seated in breadboard columns `b` and `i`, spanning rows `1` through `19`. 
-**Wiring Constraint:** You ONLY have **column `a`** (left side) and **column `j`** (right side) available for jumper wires. All connections must be routed through these single available holes.
+**Hardware Reality:** The ESP32 is seated in breadboard column `b`, but it is **rotated 180 degrees (upside down)**. 
+**Wiring Constraint:** You ONLY have **column `a`** (left side) available for jumper wires. The right side of the ESP32 is "in the air" and not plugged into the breadboard.
 
-| Breadboard Row | Left Side Access (Col `a`) | Right Side Access (Col `j`) | Wiring Notes & Best Uses |
-| :--- | :--- | :--- | :--- |
-| **1 (Top - USB)**| `CLK` | `V5` (5V / VIN) | 5V Power available on the right |
-| **2** | `SD0` | `CMD` | *Avoid using SD pins (used for internal flash)* |
-| **3** | `SD1` | `SD3` | *Avoid using SD pins* |
-| **4** | `G15` | `SD2` | *Avoid using SD pins* |
-| **5** | `G2` | `G13` | Safe GPIOs |
-| **6** | `G0` | `GND` | Ground available on the right |
-| **7** | `G4` | `G12` | Safe GPIOs |
-| **8** | `G16` | `G14` | Safe GPIOs |
-| **9** | `G17` | `G27` | Safe GPIOs |
-| **10** | `G5` | `G26` | Safe GPIOs |
-| **11** | `G18` | `G25` | Safe GPIOs |
-| **12** | `G19` | `G33` | Safe GPIOs |
-| **13** | `GND` | `G32` | Ground available on the left |
-| **14** | **`G21` (SDA)**| `G35` | **OLED I2C SDA (Left)** / Input Only (Right) |
-| **15** | `RXD` | `G34` | Input Only (Right) |
-| **16** | `TXD` | `SN` (GPIO 39) | Input Only (Right) |
-| **17** | **`G22` (SCL)**| `SP` (GPIO 36) | **OLED I2C SCL (Left)** / Input Only (Right) |
-| **18** | `G23` | `EN` | Safe GPIO (Left) |
-| **19 (Bottom)**| `GND` | `3V3` (3.3V) | Ground (Left) / 3.3V Power available (Right) |
+| Breadboard Row | Left Side Access (Col `a`) | Wiring Notes & Best Uses |
+| :--- | :--- | :--- |
+| **1 (Top)** | `GND` | Ground available on the left |
+| **2** | `G23` | Safe GPIO |
+| **3** | `G22` (SCL) | **OLED I2C SCL** |
+| **4** | `TXD` | TX |
+| **5** | `RXD` | RX |
+| **6** | `G21` (SDA) | **OLED I2C SDA** |
+| **7** | `GND` | Ground available on the left |
+| **8** | `G19` | Safe GPIO (Buzzer) |
+| **9** | `G18` | Safe GPIO (Left Button) |
+| **10** | `G5` | Safe GPIO |
+| **11** | `G17` | Safe GPIO (Right Button) |
+| **12** | `G16` | Safe GPIO |
+| **13** | `G4` | Safe GPIO |
+| **14** | `G0` | Safe GPIO |
+| **15** | `G2` | Safe GPIO |
+| **16** | `G15` | Safe GPIO |
+| **17** | `SD1` | *Avoid using SD pins (used for internal flash)* |
+| **18** | `SD0` | *Avoid using SD pins* |
+| **19 (Bottom)**| `CLK` | *Avoid using CLK* |
+
+*Note: The right-side pins (e.g., 3V3) must be connected via direct Female-to-Male jumpers since they are not on the breadboard.*
 
 ## 3. Game Concepts & Architectures
 Here is the chosen game concept designed specifically for this 2-button hardware layout:

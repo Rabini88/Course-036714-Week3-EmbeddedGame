@@ -65,9 +65,13 @@ void setup() {
     digitalWrite(PIN_LED_RED, LOW);
     digitalWrite(PIN_LED_BLUE, LOW);
 
+    // Initialize Buzzer
+    pinMode(PIN_BUZZER, OUTPUT);
+    digitalWrite(PIN_BUZZER, LOW);
+
     // Initialize Buttons
-    pinMode(PIN_BUTTON_1_LEFT, INPUT_PULLUP);
-    pinMode(PIN_BUTTON_2_CENTER, INPUT_PULLUP);
+    pinMode(PIN_BUTTON_LEFT, INPUT_PULLUP);
+    pinMode(PIN_BUTTON_RIGHT, INPUT_PULLUP);
 
     // Initialize OLED
     Wire.begin(PIN_OLED_SDA, PIN_OLED_SCL);
@@ -76,7 +80,7 @@ void setup() {
         for(;;);
     }
     Wire.setClock(400000); // 400kHz I2C for faster rendering
-    display.setRotation(2); // Match breadboard
+    display.setRotation(0); // Match breadboard
 
     initGame();
     stateStartTime = millis();
@@ -100,8 +104,8 @@ void loop() {
     }
 
     // Input state
-    bool leftPressed = (digitalRead(PIN_BUTTON_1_LEFT) == LOW);
-    bool rightPressed = (digitalRead(PIN_BUTTON_2_CENTER) == LOW);
+    bool leftPressed = (digitalRead(PIN_BUTTON_LEFT) == LOW);
+    bool rightPressed = (digitalRead(PIN_BUTTON_RIGHT) == LOW);
 
     display.clearDisplay();
 
@@ -187,12 +191,12 @@ void resetLevel() {
 }
 
 void updatePaddle(float dt) {
-    // Buttons flipped by user request
-    if (digitalRead(PIN_BUTTON_1_LEFT) == LOW) {
-        paddle.x += paddle.speed * dt; // Moved Right
-    }
-    if (digitalRead(PIN_BUTTON_2_CENTER) == LOW) {
+    // Left button moves left, Right button moves right
+    if (digitalRead(PIN_BUTTON_LEFT) == LOW) {
         paddle.x -= paddle.speed * dt; // Moved Left
+    }
+    if (digitalRead(PIN_BUTTON_RIGHT) == LOW) {
+        paddle.x += paddle.speed * dt; // Moved Right
     }
 
     // Bound to screen
@@ -230,6 +234,8 @@ void updateBall(float dt) {
         // Add "english" to the ball based on where it hit the paddle
         float hitFactor = (ball.x - (paddle.x + paddle.width / 2.0f)) / (paddle.width / 2.0f);
         ball.velocity_x = hitFactor * BALL_SPEED_BASE * 1.5f; 
+        
+        tone(PIN_BUZZER, 800, 50); // Paddle hit sound
     }
 
     // Block collision
@@ -260,6 +266,7 @@ void updateBall(float dt) {
     if (blockHit) {
         digitalWrite(PIN_LED_BLUE, HIGH);
         blueLedTurnOffTime = millis() + 50; // Flash Blue LED for 50ms
+        tone(PIN_BUZZER, 1200, 50); // Block hit sound
     }
     
     if (allCleared) {
@@ -276,6 +283,7 @@ void updateBall(float dt) {
             currentState = STATE_SERVE_WAIT;
             stateStartTime = millis();
             redLedTurnOffTime = millis() + 1000; // Red LED stays on for 1 second to emphasize life lost
+            tone(PIN_BUZZER, 200, 500); // Lose life sound
             
             // Reset paddle and ball positions
             paddle.x = (SCREEN_WIDTH - paddle.width) / 2.0f;
@@ -286,6 +294,7 @@ void updateBall(float dt) {
         } else {
             currentState = STATE_GAME_OVER;
             stateStartTime = millis();
+            tone(PIN_BUZZER, 150, 1000); // Game over sound
         }
     }
 }

@@ -17,47 +17,41 @@
 
 ---
 
-## Precise Breadboard Layout & Connections
+## Precise Breadboard Layout & Connections (UPDATED)
 
-*Note: The breadboard has rows numbered 1 to 30. Columns a-e are on the left of the center trench, and f-j are on the right. Power rails are on the far edges (Red for +, Blue for -).*
+*Note: The breadboard has rows numbered 1 to 30. Columns a-e are on the left of the center trench, and f-j are on the right.*
 
 ### 1. The ESP32 Brain & Power Rails
-* **Placement:** Keep the ESP32 exactly where it is (Rows 1 to 19). The left pins are in column `a` and the right pins are in column `i`. This blocks the left side but leaves **column `j` completely free** for all our wiring. Ensure the Micro-USB port is pointing outwards at the top. 
+* **Placement:** The ESP32 is seated in breadboard column `b` but is **rotated 180 degrees (upside down)**. The right-side pins of the ESP32 are "in the air" and not plugged into the breadboard. All accessible pins are on the left side (access via column `a`), but mapped in reverse (Row 19 is now Row 1).
 * **Power:** 
-  * Connect a jumper wire from the ESP32 `3V3` pin (located at **`j19`**) to the **Red (+)** power rail on the right side.
-  * Connect a jumper wire from an ESP32 `GND` pin (located at **`j6`**) to the **Blue (-)** power rail on the right side.
-  * *Note: All components will use this right Blue (-) rail for ground.*
+  * **3V3:** Requires a direct Female-to-Male jumper from the 3V3 pin "in the air" to the component.
+  * **GND:** Accessible at breadboard row 1 (`a1`/`b1`/`c1`/`d1`) and row 7 (`a7`/`b7`).
 
-### 2. The Two Buttons (Inputs)
-* **Placement:** The 4-pin tactile buttons will straddle the center trench in the lower half of the board.
-  * **Button 1 (Right Action - physically on left):** Insert into rows **21 and 23** (pins into `e21`, `e23` and `f21`, `f23`).
-  * **Button 2 (Left Action - physically on right):** Insert into rows **24 and 26** (pins into `e24`, `e26` and `f24`, `f26`).
+### 2. The OLED Display (I2C)
+* **Placement:** The OLED header pins are plugged directly into the right side of the breadboard at the top (column `j`, rows 1-4).
+* **Wiring:**
+  * Row 1 (`j1` / SDA) -> Jumper to **ESP32 GPIO 21** (`a6`)
+  * Row 2 (`j2` / SCL) -> Jumper to **ESP32 GPIO 22** (`a3`)
+  * Row 3 (`j3` / VCC) -> Female-to-Male jumper to **ESP32 3V3** (in the air)
+  * Row 4 (`j4` / GND) -> Jumper to **GND** (e.g., `b2`)
+
+### 3. The Two Buttons (Inputs)
 * **Wiring:** 
-  * **Grounding:** Connect a jumper wire from the right Blue (-) rail to the top-right pin of each button (`j21`, `j24`).
-  * **Signal:** Connect a jumper wire from the bottom-right pin of each button to the ESP32 via column `j`:
-    * Button 1 signal (`i23`) -> **ESP32 GPIO 12 (plug into `j7`)**
-    * Button 2 signal (`i26`) -> **ESP32 GPIO 13 (plug into `j5`)**
+  * **Right Button (Button 1):** 
+    * Signal: Row 20 -> Jumper to **ESP32 GPIO 17** (`a11`)
+    * Ground: Row 22 -> Jumper to **GND** (`b7`)
+  * **Left Button (Button 2):**
+    * Signal: Row 23 -> Jumper to **ESP32 GPIO 18** (`a9`)
+    * Ground: Row 25 -> Jumper to **GND** (`d1`)
 
-### 3. LEDs (Visual Outputs) - JUMPER-LESS DESIGN
-* **Hack:** Since we are low on jumper wires, we will plug the LEDs *directly* into the ESP32's signal pins and the ground rail! The LED legs are flexible enough to span the gap.
-* **Red LED (Game Over/Miss):**
-  * Insert the long leg (Anode) directly into **`j11`** (ESP32 GPIO 25).
-  * Stretch the short leg (Cathode) over and insert it directly into the right **Blue (-)** power rail at row 11.
-* **Blue LED (Hit/Score):**
-  * Insert the long leg (Anode) directly into **`j10`** (ESP32 GPIO 26).
-  * Stretch the short leg (Cathode) over and insert it directly into the right **Blue (-)** power rail at row 10.
+### 4. Buzzer (Output)
+* **Placement:** Straddling the bottom of the board at Row 30.
+* **Wiring:**
+  * **Positive Leg (`f30`):** `j30` -> Jumper to **ESP32 GPIO 19** (`a8`)
+  * **Negative Leg (`e30`):** `a30` -> Jumper to **GND** (`c1`)
 
-### 4. OLED Display (I2C) - DIRECT BREADBOARD MOUNT
-* **Placement:** Plug the OLED header pins directly into the left side of the breadboard (column `a`) at the bottom.
-  * Pin 1 (GND) -> `a27`
-  * Pin 2 (VCC) -> `a28`
-  * Pin 3 (SCL) -> `a29`
-  * Pin 4 (SDA) -> `a30`
-* **Wiring (Use Male-to-Male jumper wires):**
-  * **GND:** Connect `b27` to the right **Blue (-)** power rail.
-  * **VCC:** Connect `b28` to the right **Red (+)** power rail.
-  * **SCL:** Connect `b29` to **ESP32 GPIO 33 (plug into `j12`)**.
-  * **SDA:** Connect `b30` to **ESP32 GPIO 32 (plug into `j13`)**.
+### 5. LEDs (Visual Outputs)
+* **Status:** Currently unplugged. Disabled in physical layout but kept in logic structure.
 
 ---
 
